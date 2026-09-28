@@ -1,0 +1,29 @@
+node_modules/
+web/dist/
+
+# Databases — never commit these. They contain your cards, and the WAL files
+# can hold data even when the .db looks empty.
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+
+# Uploaded attachment bytes.
+uploads/
+
+# Local secrets. The app reads config from the environment; if you keep it in
+# a file, keep it out of git.
+.env
+.env.*
+!.env.example
+
+# Editor / tooling state that can capture commands containing credentials.
+.vscode/
+.idea/
+.DS_Store
+
+# Cloudflare: your deployments' configs and build output, and local dev state.
+deploy/
+.wrangler/
+.dev.vars*
+worker/worker-configuration.d.ts

@@ -1,0 +1,42 @@
+// One Kanagare instance on Cloudflare Workers. Copy to deploy/<name>/wrangler.jsonc,
+// fill in the name and domain, then:
+//
+//   npm run cf:deploy -- deploy/<name>
+//
+// Paths are relative to this file's final location, deploy/<name>/. In a
+// separate repo with Kanagare as a submodule at kanagare/, use
+// "kanagare/worker/index.ts" and "kanagare/node_modules/..." instead.
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "kanagare",
+  "main": "../../worker/index.ts",
+  "compatibility_date": "2026-09-22",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Built by scripts/cf-deploy.mjs. Served straight from Cloudflare's edge —
+  // these requests never run the Worker and don't count against its limits.
+  "assets": { "directory": "./dist", "binding": "ASSETS", "not_found_handling": "none" },
+
+  // The database. SQLite-backed Durable Objects are on the free plan.
+  "durable_objects": { "bindings": [{ "name": "BOARD", "class_name": "Board" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Board"] }],
+
+  // A domain on a zone in the same Cloudflare account. Wrangler creates the
+  // DNS record and certificate. If the hostname already has a DNS record (say,
+  // from a previous server) this fails; either delete the record, or keep it
+  // proxied and use a route instead:
+  //   "routes": [{ "pattern": "board.example.com/*", "zone_name": "example.com" }]
+  "routes": [{ "pattern": "board.example.com", "custom_domain": true }],
+  "workers_dev": false,
+
+  // Read as environment variables by server/config.ts. Secrets go through
+  // `wrangler secret put` instead: ADMIN_EMAIL / ADMIN_PASSWORD to seed the
+  // first admin, RESTORE_TOKEN while restoring a backup.
+  "vars": {
+    "APP_NAME": "Kanagare",
+    "APP_DESCRIPTION": "A small kanban board you host yourself.",
+    "COOKIE_NAME": "kanagare_session"
+  },
+
+  "observability": { "enabled": true }
+}

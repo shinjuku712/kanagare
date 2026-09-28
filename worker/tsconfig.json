@@ -1,0 +1,9 @@
+{
+  "extends": "../server/tsconfig.json",
+  "compilerOptions": {
+    // Runtime types come from worker-configuration.d.ts (`npm run cf:types`),
+    // which is generated to coexist with @types/node.
+    "types": ["node"]
+  },
+  "include": ["./**/*.ts", "../server/**/*.ts", "../shared/**/*.ts"]
+}
