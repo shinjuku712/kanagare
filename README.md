@@ -6,6 +6,8 @@
 A small kanban board you host yourself.
 </div>
 
+![The board, in the dark theme](docs/screenshots/board.png)
+
 I built this for myself and a few people I work with. It runs as one Node
 process with one SQLite file, or for free on Cloudflare Workers.
 
@@ -21,6 +23,13 @@ What's in it:
 - keyboard shortcuts (press `?`), dark and light themes, works on phones, installable as a PWA
 
 There's no signup. An admin creates accounts from inside the app.
+
+<table>
+  <tr>
+    <td width="62%"><img src="docs/screenshots/card.png" alt="A card opened: notes with a checklist, files, links and comments"></td>
+    <td><img src="docs/screenshots/mobile.png" alt="The board and a card on a phone"></td>
+  </tr>
+</table>
 
 ## Running it
 
